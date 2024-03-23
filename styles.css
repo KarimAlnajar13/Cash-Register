@@ -1,0 +1,49 @@
+body {
+  font-family: Tahoma;
+  text-align: center;
+  align-content: center;
+
+  background-color: beige;
+}
+
+#container {
+  margin-top: 200px;
+}
+
+input {
+  margin-bottom: 20px;
+  border-radius: 6px;
+
+  width: 200px;
+  padding: 8px;
+  border-style: none;
+  background-color: #ddd;
+  text-align: center;
+}
+
+input:focus {
+  outline: none;
+}
+
+div {
+  border-radius: 10px;
+  padding: 6px;
+  border-style: none;
+  text-align: center;
+}
+
+button {
+  margin: auto;
+  margin-top: 20px;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 6px;
+  border-style: none;
+  background-color: dimgray;
+  color: white;
+}
+
+#reset {
+  display: block;
+}
