@@ -18,11 +18,20 @@ let cid = [
   ["ONE HUNDRED", 100, 100],
 ];
 
+let total = cid
+  .map((element) => (element = element[1]))
+  .reduce((acc, curr) => curr + acc, 0)
+  .toFixed(2);
 
 const getResult = () => {
   let cashVar = parseFloat(cash.value);
   let rest = cashVar - price;
   cash.value = "";
+
+  if (cashVar > total) {
+    alert("الدرج فضي 😥");
+    return;
+  }
 
   if (isNaN(cashVar)) {
     alert("اكتب رقم وبطل مرقعة");
@@ -37,12 +46,10 @@ const getResult = () => {
   } else {
     calc(rest, cid.length - 1);
   }
-  console.log(state);
   const j = state.length > 1 ? state.join(" ") : state;
   result.textContent += `${j}`;
 
-
-state = [`Status: OPEN`];
+  state = [];
 };
 
 const calc = (rest, index) => {
@@ -74,7 +81,9 @@ const calc = (rest, index) => {
 
   if (temp > 0) {
     state.push(`${cid[index][0]}: $${temp}`);
+    // state.push(`<p>${cid[index][0]}: \$${temp}</p>`);
   }
+  total -= temp;
   calc(rest, index - 1);
 };
 
