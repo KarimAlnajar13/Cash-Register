@@ -3,9 +3,9 @@ const purchase = document.getElementById("purchase-btn");
 const result = document.getElementById("change-due");
 const reset = document.getElementById("reset");
 
-let state = ["Status: OPEN "];
-
+let state = [`Status: OPEN`];
 let price = 1.87;
+let bill;
 let cid = [
   ["PENNY", 1.01, 0.01],
   ["NICKEL", 2.05, 0.05],
@@ -18,35 +18,41 @@ let cid = [
   ["ONE HUNDRED", 100, 100],
 ];
 
+
 const getResult = () => {
   let cashVar = parseFloat(cash.value);
-  let rest = (cashVar - price).toFixed(2);
+  let rest = cashVar - price;
+  cash.value = "";
 
+  if (isNaN(cashVar)) {
+    alert("اكتب رقم وبطل مرقعة");
+    return;
+  }
   if (cashVar < price) {
     alert("Customer does not have enough money to purchase the item");
-  } else if (cashVar === price) {
+    return;
+  } else if (rest === 0) {
     result.textContent = "No change due - customer paid with exact cash";
+    return;
   } else {
     calc(rest, cid.length - 1);
   }
+  console.log(state);
+  const j = state.length > 1 ? state.join(" ") : state;
+  result.textContent += `${j}`;
 
-  // for (let el = 0; el < state.length; el++) {
-  //   result.innerHTML += `<p>${state[el]}</p>`;
-  // }
-  result.innerHTML += `${state}`;
+
+state = [`Status: OPEN`];
 };
 
 const calc = (rest, index) => {
-  if (index < 0) return;
+  if (index < 0 || rest === 0) {
+    return;
+  }
   let temp = 0.0;
   bill = cid[index][2];
 
-  if (rest === 0) {
-    console.log("Bye");
-    return;
-  }
-
-  while (rest >= bill && cid[index][1] >= bill) {
+  while (rest >= bill && cid[index][1] >= bill && rest >= 0.01) {
     rest -= bill;
     cid[index][1] -= bill;
     temp += bill;
@@ -59,10 +65,15 @@ const calc = (rest, index) => {
     state = `Status: CLOSED PENNY: \$0.5`;
     return;
   }
+  if (rest < 0.01) {
+    if (rest > 0) {
+      temp += 0.01;
+    }
+    rest = 0;
+  }
 
-  console.log(rest);
   if (temp > 0) {
-    state.push(` ${cid[index][0]}: \$${temp}`);
+    state.push(`${cid[index][0]}: $${temp}`);
   }
   calc(rest, index - 1);
 };
